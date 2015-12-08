@@ -1,0 +1,5 @@
+package sssgo
+
+func MiscAppInit() {
+
+}
