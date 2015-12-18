@@ -14,6 +14,7 @@ var (
 
 func WndProc(hWnd HWND, message uint32, wParam, lParam uintptr) (result uintptr) {
 	var hdc HDC
+	var point POINT
 	switch message {
 		case WM_CREATE:
 			s_hAppWnd = hWnd;
@@ -49,6 +50,27 @@ func WndProc(hWnd HWND, message uint32, wParam, lParam uintptr) (result uintptr)
 			key := int(wParam);
 			fmt.Printf("WM_CHAR: %d\n", key)
 			KeyboardChar(key)
+			break;
+
+		case WM_MOUSEMOVE:
+			point.X = int32(LOWORD(uint32(lParam)));
+			point.Y = int32(HIWORD(uint32(lParam)));
+			fmt.Printf("WM_MOUSEMOVE: %d, %d\n", point.X, point.Y);
+			MouseMove(int(point.X), int(point.Y));
+			break;
+	
+		case WM_LBUTTONDOWN:
+			point.X = int32(LOWORD(uint32(lParam)));
+			point.Y = int32(HIWORD(uint32(lParam)));
+			fmt.Printf("WM_LBUTTONDOWN: %d, %d\n", point.X, point.Y);
+			MouseLButtonDown(int(point.X), int(point.Y));
+			break;
+	
+		case WM_LBUTTONUP:
+			point.X = int32(LOWORD(uint32(lParam)));
+			point.Y = int32(HIWORD(uint32(lParam)));
+			fmt.Printf("WM_LBUTTONUP: %d, %d\n", point.X, point.Y);
+			MouseLButtonUp(int(point.X), int(point.Y));
 			break;
 
 		case WM_DESTROY:

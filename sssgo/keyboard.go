@@ -2,7 +2,7 @@ package sssgo
 
 type keyboard_buffer_struct struct {
 	status int
-	buffer []int
+	buffer [BUFSIZE]int
 	head int
 	tail int
 	reading bool
@@ -26,7 +26,6 @@ func KeyboardGetBufNum(head int, tail int) int {
 func KeyboardInit() {
     s_KBuffer.head = 0
     s_KBuffer.tail = 0
-	s_KBuffer.buffer = make([]int, BUFSIZE);
 }
 
 func KeyboardRelease() {
