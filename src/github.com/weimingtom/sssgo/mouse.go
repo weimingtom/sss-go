@@ -9,7 +9,7 @@ const (
 
 type mouse_buffer_struct struct {
 	status int
-	buffer [BUFSIZE]int
+	buffer [BUFSIZE]uint32
 	head int
 	tail int
 	reading bool
@@ -41,7 +41,7 @@ func MouseInit() {
 func MouseRelease() {
     s_MBuffer.head = 0
     s_MBuffer.tail = 1
-    s_MBuffer.buffer[0] = -1
+    s_MBuffer.buffer[0] = uint32(-1 & 0xFFFFFFFF)
 }
 
 func MouseMove(x int, y int) {
@@ -49,9 +49,9 @@ func MouseMove(x int, y int) {
 		MouseGetBufNum(s_MBuffer.head, s_MBuffer.tail) < BUFSIZE - 1) {
 		s_MBuffer.writing = true;
 		s_MBuffer.buffer[s_MBuffer.tail] = 
-			((x & 0xFFF) << 12) | 
-			(y & 0xFFF) | 
-			(PEN_MOVE << 24)
+			uint32((x & 0xFFF) << 12) | 
+			uint32(y & 0xFFF) | 
+			uint32(PEN_MOVE << 24)
 		if (s_MBuffer.tail == BUFSIZE - 1) {
 			s_MBuffer.tail = 0
 		} else {
@@ -66,9 +66,9 @@ func MouseLButtonDown(x int, y int) {
 		s_MBuffer.status = 1
 		s_MBuffer.writing = true
 		s_MBuffer.buffer[s_MBuffer.tail] = 
-			((x & 0xFFF) << 12) | 
-			(y & 0xFFF) | 
-			(PEN_DOWN << 24)
+			uint32((x & 0xFFF) << 12) | 
+			uint32(y & 0xFFF) | 
+			uint32(PEN_DOWN << 24)
 		if (s_MBuffer.tail == BUFSIZE - 1) {
 			s_MBuffer.tail = 0
 		} else {
@@ -82,9 +82,9 @@ func MouseLButtonUp(x int ,y int) {
 	if (s_MBuffer.status == 1) {
 		s_MBuffer.writing = true
 		s_MBuffer.buffer[s_MBuffer.tail] = 
-			((x & 0xFFF) << 12) | 
-			(y & 0xFFF) | 
-			(PEN_UP << 24)
+			uint32((x & 0xFFF) << 12) | 
+			uint32(y & 0xFFF) | 
+			uint32(PEN_UP << 24)
 		if (s_MBuffer.tail == BUFSIZE - 1) {
 			s_MBuffer.tail = 0;
 		} else {
@@ -95,8 +95,8 @@ func MouseLButtonUp(x int ,y int) {
 	}	
 }
 
-func MouseGetMouseStatus() int {
-    var status int
+func MouseGetMouseStatus() uint32 {
+    var status uint32
     if (MouseGetBufNum(s_MBuffer.head, s_MBuffer.tail) > 0) {
 		/*
 		MiscTrace("MouseGetBufNum: %d\n", 

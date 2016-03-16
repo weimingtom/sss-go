@@ -1,7 +1,7 @@
 package sssgo
 
 import (
-	. "github.com/cwchiu/go-winapi"
+	. "github.com/weimingtom/go-winapi"
 )
 
 var (

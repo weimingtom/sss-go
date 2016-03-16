@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	. "github.com/cwchiu/go-winapi"
-	. "./sssgo"
+	. "github.com/weimingtom/go-winapi"
+	. "github.com/weimingtom/sssgo"
 	"strconv"
 )
 
@@ -43,8 +43,8 @@ func main() {
 		ks := KeyboardGetKeyboardStatus()
 		
 		if ks != 0 {
-			fmt.Printf("keyboard status : " + strconv.Itoa(ks) + "\n")
-			MainFrameSetTitle("keyboard status : " + strconv.Itoa(ks) + "\n")
+			fmt.Printf("keyboard status : " + strconv.Itoa(int(ks)) + "\n")
+			MainFrameSetTitle("keyboard status : " + strconv.Itoa(int(ks)) + "\n")
 		}
 		MainFrameRefresh();
 	}
